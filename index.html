@@ -153,10 +153,26 @@ td.num, th.num { text-align: right; }
 .obj-a { font-size: 13px; color: #444; line-height: 1.6; }
 .bp-closing { font-size: 13px; color: #444; margin-top: 12px; font-style: italic; }
 .narrative { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 16px; }
-.photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px; }
-.photo-gallery figure { margin: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); background: #fff; }
-.photo-gallery img { width: 100%; height: 220px; object-fit: cover; display: block; }
-.photo-gallery figcaption { font-size: 12px; color: #6B7280; padding: 8px 12px; background: #fff; }
+.slideshow { max-width: 1000px; margin: 0 auto; }
+.slide-stage { position: relative; width: 100%; height: 580px; background: #0F2745; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 22px rgba(0,0,0,0.14); }
+.slide-stage img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+.slide-caption { position: absolute; left: 0; right: 0; bottom: 0; background: linear-gradient(transparent, rgba(15,39,69,0.88)); color: #fff; font-size: 14px; padding: 36px 22px 16px; }
+.slide-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(27,58,92,0.72); color: #fff; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 3; transition: background 0.15s, color 0.15s; }
+.slide-arrow:hover { background: #C5A258; color: #1B3A5C; }
+.slide-arrow.prev { left: 16px; } .slide-arrow.next { right: 16px; }
+.slide-counter { position: absolute; top: 14px; right: 16px; background: rgba(15,39,69,0.72); color: #fff; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; padding: 5px 12px; border-radius: 20px; z-index: 3; }
+.slide-thumbs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 2px 4px; scrollbar-width: thin; }
+.slide-thumbs img { width: 104px; height: 70px; object-fit: cover; border-radius: 5px; cursor: pointer; opacity: 0.5; border: 2px solid transparent; flex: 0 0 auto; transition: opacity 0.15s, border-color 0.15s; }
+.slide-thumbs img:hover { opacity: 0.85; }
+.slide-thumbs img.active { opacity: 1; border-color: #C5A258; }
+.lightbox { position: fixed; inset: 0; background: rgba(8,18,32,0.95); display: none; align-items: center; justify-content: center; z-index: 9999; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 92vw; max-height: 86vh; object-fit: contain; border-radius: 6px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+.lb-close { position: absolute; top: 16px; right: 26px; color: #fff; font-size: 38px; line-height: 1; cursor: pointer; background: none; border: none; }
+.lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.14); color: #fff; border: none; width: 56px; height: 56px; border-radius: 50%; font-size: 28px; cursor: pointer; }
+.lb-arrow:hover { background: #C5A258; color: #1B3A5C; }
+.lb-arrow.prev { left: 20px; } .lb-arrow.next { right: 20px; }
+.lb-cap { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.85); font-size: 13px; padding: 0 20px; }
 .improv-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: start; }
 .improv-list { list-style: none; }
 .improv-list li { position: relative; padding: 0 0 14px 70px; font-size: 13px; line-height: 1.55; color: #2F3640; border-left: 2px solid #E2E5EB; margin-left: 8px; }
@@ -188,7 +204,8 @@ td.num, th.num { text-align: right; }
   .cover-stats { gap: 24px; }
   .section { padding: 30px 16px; }
   .two-col, .buyer-split, .inv-split, .os-two-col, .loc-grid, .improv-grid { grid-template-columns: 1fr; }
-  .photo-gallery { grid-template-columns: 1fr; }
+  .slide-stage { height: 300px; } .slide-thumbs img { width: 76px; height: 50px; }
+  .slide-arrow { width: 40px; height: 40px; font-size: 22px; }
   .metrics-grid, .metrics-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .metric-card { padding: 16px 10px; } .metric-value { font-size: 24px; }
   .mkt-channels { grid-template-columns: 1fr; }
@@ -397,21 +414,24 @@ td.num, th.num { text-align: right; }
   <div class="section-title">Property Photos</div>
   <div class="section-subtitle">21727 Lassen St - Chatsworth</div>
   <div class="section-divider"></div>
-  <div class="photo-gallery">
-    <figure><img src="images/photo_ext1.jpg" alt="21727 Lassen St - exterior" loading="lazy"><figcaption>Front elevation - tan stucco townhouse-style units with mansard roof</figcaption></figure>
-    <figure><img src="images/photo_kitchen1.jpg" alt="Renovated kitchen" loading="lazy"><figcaption>Renovated kitchen - white shaker cabinetry, gas range</figcaption></figure>
-    <figure><img src="images/photo_living1.jpg" alt="Living room with balcony" loading="lazy"><figcaption>Living room - wide-plank flooring, private balcony access</figcaption></figure>
-    <figure><img src="images/photo_stairs.jpg" alt="Two-story living area" loading="lazy"><figcaption>Two-story townhouse layout - open living with staircase</figcaption></figure>
-    <figure><img src="images/photo_living2.jpg" alt="Living / dining" loading="lazy"><figcaption>Living / dining - bright, updated finishes</figcaption></figure>
-    <figure><img src="images/photo_kitchen2.jpg" alt="Kitchen detail" loading="lazy"><figcaption>Kitchen - stainless range and full-height cabinetry</figcaption></figure>
-    <figure><img src="images/photo_bed1.jpg" alt="Bedroom" loading="lazy"><figcaption>Bedroom - wide-plank floors, large window</figcaption></figure>
-    <figure><img src="images/photo_bed2.jpg" alt="Bedroom with closet" loading="lazy"><figcaption>Bedroom - mirrored wardrobe closet</figcaption></figure>
-    <figure><img src="images/photo_entry.jpg" alt="Entry and staircase" loading="lazy"><figcaption>Entry and staircase to upper level</figcaption></figure>
-    <figure><img src="images/photo_bath1.jpg" alt="Full bathroom" loading="lazy"><figcaption>Full bathroom - tub/shower, tiled surround</figcaption></figure>
-    <figure><img src="images/photo_bath2.jpg" alt="Bathroom vanity" loading="lazy"><figcaption>Updated vanity and fixtures</figcaption></figure>
-    <figure><img src="images/photo_ext2.jpg" alt="Exterior rear" loading="lazy"><figcaption>Rear exterior - private patio and ground-floor entry</figcaption></figure>
+  <div class="slideshow">
+    <div class="slide-stage">
+      <span class="slide-counter" id="slideCounter">1 / 12</span>
+      <button class="slide-arrow prev" onclick="slideMove(-1)" aria-label="Previous photo">&#8249;</button>
+      <img id="slideMain" src="images/photo_ext1.jpg" alt="21727 Lassen St photo" onclick="openLightbox()">
+      <div class="slide-caption" id="slideCaption">Front elevation &mdash; tan stucco townhouse-style units with mansard roof</div>
+      <button class="slide-arrow next" onclick="slideMove(1)" aria-label="Next photo">&#8250;</button>
+    </div>
+    <div class="slide-thumbs" id="slideThumbs"></div>
   </div>
-  <p style="font-size:11px;color:#6B7280;margin-top:6px;">Interior images depict a representative renovated unit and illustrate the post-turn condition achievable as units roll to market. Source: listing media.</p>
+  <p style="font-size:11px;color:#6B7280;margin-top:8px;">Click any image to enlarge. Interior images depict a representative renovated unit and illustrate the post-turn condition achievable as units roll to market. Source: listing media.</p>
+</div>
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <button class="lb-arrow prev" onclick="slideMove(-1);syncLightbox()" aria-label="Previous">&#8249;</button>
+  <img id="lbImg" src="" alt="21727 Lassen St photo enlarged">
+  <button class="lb-arrow next" onclick="slideMove(1);syncLightbox()" aria-label="Next">&#8250;</button>
+  <div class="lb-cap" id="lbCap"></div>
 </div>
 
 <!-- LOCATION -->
@@ -439,7 +459,7 @@ td.num, th.num { text-align: right; }
       </tbody></table>
     </div>
   </div>
-  <div class="loc-wide-map"><img src="images/loc_map.png" alt="Location Map"></div>
+  <div class="embed-map-wrap"><iframe src="https://maps.google.com/maps?q=21727+Lassen+St,+Chatsworth,+CA+91311&z=15&output=embed" loading="lazy" allowfullscreen title="21727 Lassen St location map"></iframe></div>
 </div>
 
 <!-- PROPERTY DETAILS -->
@@ -539,7 +559,7 @@ td.num, th.num { text-align: right; }
   <div class="section-title">Sales &amp; On-Market Comparables</div>
   <div class="section-subtitle">Recent Closed Sales and Active Listings - West Valley</div>
   <div class="section-divider"></div>
-  <div class="flag-note"><strong>Draft note:</strong> closed-sale pricing/units are from the provided comp set, with building areas (and $/SF) corrected to title / LightBox assessor records. The Reseda active row is a public-source placeholder pending CoStar confirmation.</div>
+  <div class="flag-note"><strong>Draft note:</strong> comp pricing/units are from the provided comp set, with building areas (and $/SF) corrected to title / LightBox assessor records.</div>
   <div class="embed-map-wrap">
     <iframe src="https://maps.google.com/maps?saddr=21727+Lassen+St,+Chatsworth,+CA+91311&daddr=8807+Canby+Ave,+Northridge,+CA+91325+to:17956+Schoenborn+St,+Northridge,+CA+91325+to:17944+Schoenborn+St,+Northridge,+CA+91325+to:17945+Roscoe+Blvd,+Northridge,+CA+91325&output=embed" loading="lazy" allowfullscreen></iframe>
   </div>
@@ -547,20 +567,18 @@ td.num, th.num { text-align: right; }
   <div class="table-scroll"><table>
     <thead><tr><th>Address</th><th>Submarket</th><th class="num">Yr</th><th class="num">Units</th><th class="num">Price</th><th class="num">$/Unit</th><th class="num">$/SF</th><th class="num">Cap</th><th>Status</th></tr></thead>
     <tbody>
-<tr class='highlight'><td><strong>21727 Lassen St</strong> (Subject)</td><td>Chatsworth</td><td class='num'>1976</td><td class='num'>7</td><td class='num'>$1,725,000</td><td class='num'>$246,429</td><td class='num'>$277</td><td class='num'>5.50%</td><td>Offered</td></tr>
+<tr class='highlight'><td><strong>21727 Lassen St</strong> (Subject)</td><td>Chatsworth</td><td class='num'>1976</td><td class='num'>7</td><td class='num'>$1,620,000</td><td class='num'>$231,429</td><td class='num'>$260</td><td class='num'>5.50%</td><td>Offered</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/8807+Canby+Ave,+Northridge,+CA+91325/' target='_blank' rel='noopener'>8807 Canby Ave</a></td><td>Northridge</td><td class='num'>1953</td><td class='num'>5</td><td class='num'>$1,182,500</td><td class='num'>$236,500</td><td class='num'>$241</td><td class='num'>4.44%</td><td>Sold Apr 2026</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/17956+Schoenborn+St,+Northridge,+CA+91325/' target='_blank' rel='noopener'>17956 Schoenborn St</a></td><td>Northridge</td><td class='num'>1959</td><td class='num'>6</td><td class='num'>$1,410,000</td><td class='num'>$235,000</td><td class='num'>$284</td><td class='num'>7.07%</td><td>Sold Nov 2025</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/17944+Schoenborn+St,+Northridge,+CA+91325/' target='_blank' rel='noopener'>17944 Schoenborn St</a></td><td>Northridge</td><td class='num'>1959</td><td class='num'>6</td><td class='num'>$1,110,000</td><td class='num'>$185,000</td><td class='num'>$224</td><td class='num'>5.67%</td><td>Sold Oct 2025</td></tr>
-<tr class='summary'><td colspan='4'><strong>Median (3 closed sales)</strong></td><td class='num'><strong>$1,182,500</strong></td><td class='num'><strong>$235,000</strong></td><td class='num'><strong>$241</strong></td><td class='num'><strong>5.67%</strong></td><td>-</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/17945+Roscoe+Blvd,+Northridge,+CA+91325/' target='_blank' rel='noopener'>17945 Roscoe Blvd</a></td><td>Northridge</td><td class='num'>1959</td><td class='num'>6</td><td class='num'>$1,250,000</td><td class='num'>$208,333</td><td class='num'>$252</td><td class='num'>5.56%</td><td>Under Contract</td></tr>
-<tr><td>Reseda 6-unit (value-add)<span class="note-ref">[*]</span></td><td>Reseda</td><td class='num'>1960s</td><td class='num'>6</td><td class='num'>$1,368,750</td><td class='num'>$228,125</td><td class='num'>$272</td><td class='num'>4.75%</td><td>Active</td></tr>
-<tr class='summary'><td colspan='4'><strong>Average (2 active listings)</strong></td><td class='num'><strong>$1,309,375</strong></td><td class='num'><strong>$218,229</strong></td><td class='num'><strong>$262</strong></td><td class='num'><strong>5.16%</strong></td><td>-</td></tr>
+<tr class='summary'><td colspan='4'><strong>Average (4 comparables)</strong></td><td class='num'><strong>$1,238,125</strong></td><td class='num'><strong>$216,208</strong></td><td class='num'><strong>$250</strong></td><td class='num'><strong>5.69%</strong></td><td>-</td></tr>
 </tbody>
   </table></div>
   <div class="comp-narratives">
     <p class="narrative"><strong>Closed sales.</strong> Three recent West Valley trades frame the value. <strong>8807 Canby Ave</strong> (5-unit, 1953) closed April 2026 at $236,500/unit and a tight 4.44% cap in a one-month window - below-market in-place rents like the subject, setting the per-unit benchmark. <strong>17956 Schoenborn St</strong> (6-unit, 1959) sold November 2025 at $235,000/unit, $284/SF, and a 7.07% cap - the market-rent benchmark showing where a stabilized West Valley building trades once rents are at market, exactly the yield 21727 Lassen targets as units turn. <strong>17944 Schoenborn St</strong> (6-unit, 1959, 4,962 SF per title) sold October 2025 at $185,000/unit and $224/SF, anchoring the floor on condition and in-place rents.</p>
-    <p class="narrative"><strong>Active demand.</strong> <strong>17945 Roscoe Blvd</strong> (6-unit, 1959) went under contract in 82 days at $208,333/unit and a 5.56% cap, confirming that well-located West Valley apartments clear when priced inside the comp range. A Reseda 6-unit value-add listing at $228,125/unit (4.75% in-place, projected 7.08% with two ADUs) shows buyers paying up for the same below-market-rent upside thesis. Per the comp set, West Valley apartment cap rates currently range from roughly 3.85% to 6.97%.</p>
-    <p class="narrative"><strong>Positioning.</strong> The subject's newer 1976 vintage and townhouse-style layout support a measured per-unit and $/SF premium to the older 1950s comp median, while its ~33% below-market rents keep the going-in 5.50% cap inside the comp band with clear room to grow. At $1,725,000 the subject is positioned to clear inside an industry-standard 60-90 day window, not to sit.</p>
+    <p class="narrative"><strong>Active demand.</strong> <strong>17945 Roscoe Blvd</strong> (6-unit, 1959) went under contract in 82 days at $208,333/unit and a 5.56% cap, confirming that well-located West Valley apartments clear when priced inside the comp range. Per the comp set, West Valley apartment cap rates currently range from roughly 3.85% to 6.97%.</p>
+    <p class="narrative"><strong>Positioning.</strong> Across the four comparables the average is $216,208/unit, $250/SF, and a 5.69% cap. The subject's newer 1976 vintage and townhouse-style layout support a measured premium to that average, while its ~33% below-market rents keep the going-in 5.50% cap right in the comp band with clear room to grow. At $1,620,000 the subject is positioned to clear inside an industry-standard 60-90 day window, not to sit.</p>
   </div>
 </div>
 
@@ -603,15 +621,16 @@ td.num, th.num { text-align: right; }
       <table>
         <thead><tr><th>Expenses</th><th class="num">Annual</th><th class="num">Per Unit</th><th class="num">$/SF</th><th class="num">% EGI</th></tr></thead>
         <tbody>
-<tr><td>Real Estate Taxes <span class="note-ref">[3]</span></td><td class="num">$21,563</td><td class="num">$3,080</td><td class="num">$3.46</td><td class="num">15.5%</td></tr>
+<tr><td>Real Estate Taxes <span class="note-ref">[3]</span></td><td class="num">$20,250</td><td class="num">$2,893</td><td class="num">$3.25</td><td class="num">14.5%</td></tr>
 <tr><td>Insurance <span class="note-ref">[4]</span></td><td class="num">$6,500</td><td class="num">$929</td><td class="num">$1.04</td><td class="num">4.7%</td></tr>
 <tr><td>Water / Sewer <span class="note-ref">[5]</span></td><td class="num">$4,200</td><td class="num">$600</td><td class="num">$0.67</td><td class="num">3.0%</td></tr>
 <tr><td>Trash, Gas, Electric <span class="note-ref">[6]</span></td><td class="num">$2,400</td><td class="num">$343</td><td class="num">$0.38</td><td class="num">1.7%</td></tr>
 <tr><td>Repairs &amp; Maintenance <span class="note-ref">[7]</span></td><td class="num">$4,500</td><td class="num">$643</td><td class="num">$0.72</td><td class="num">3.2%</td></tr>
 <tr><td>Contract Services <span class="note-ref">[8]</span></td><td class="num">$3,800</td><td class="num">$543</td><td class="num">$0.61</td><td class="num">2.7%</td></tr>
-<tr><td>Reserves <span class="note-ref">[9]</span></td><td class="num">$1,750</td><td class="num">$250</td><td class="num">$0.28</td><td class="num">1.3%</td></tr>
-<tr class="summary"><td><strong>Total Operating Expenses</strong></td><td class="num"><strong>$44,713</strong></td><td class="num"><strong>$6,388</strong></td><td class="num"><strong>$7.17</strong></td><td class="num"><strong>32.0%</strong></td></tr>
-<tr class="summary"><td><strong>Net Operating Income</strong></td><td class="num"><strong>$94,840</strong></td><td class="num"><strong>$13,549</strong></td><td class="num"><strong>$15.20</strong></td><td class="num"><strong>68.0%</strong></td></tr>
+<tr><td>Management (5% EGI) <span class="note-ref">[9]</span></td><td class="num">$6,978</td><td class="num">$997</td><td class="num">$1.12</td><td class="num">5.0%</td></tr>
+<tr><td>Reserves <span class="note-ref">[10]</span></td><td class="num">$1,750</td><td class="num">$250</td><td class="num">$0.28</td><td class="num">1.3%</td></tr>
+<tr class="summary"><td><strong>Total Operating Expenses</strong></td><td class="num"><strong>$50,378</strong></td><td class="num"><strong>$7,197</strong></td><td class="num"><strong>$8.08</strong></td><td class="num"><strong>36.1%</strong></td></tr>
+<tr class="summary"><td><strong>Net Operating Income</strong></td><td class="num"><strong>$89,175</strong></td><td class="num"><strong>$12,739</strong></td><td class="num"><strong>$14.30</strong></td><td class="num"><strong>63.9%</strong></td></tr>
 </tbody>
       </table>
     </div>
@@ -619,14 +638,15 @@ td.num, th.num { text-align: right; }
       <h3 class="sub-heading">Notes to Operating Statement</h3>
       <p><strong>[1] Gross Scheduled Rent:</strong> In-place contractual rents per the owner rent roll dated 6/1/2026, totaling $11,405/mo ($136,859/yr). At market, scheduled rent is an estimated $182,700/yr (~33% upside), underwritten conservatively to in-place here.</p>
       <p><strong>[2] Other Income:</strong> On-site laundry (~$1,416/yr per 2025 actual) plus utility cost recovery / RUBS (~$5,400/yr annualized from 2026 YTD).</p>
-      <p><strong>[3] Real Estate Taxes:</strong> LA County reassesses to purchase price at close; shown at 1.25% of list price. Current taxes (~$21,434) already imply a basis near the offering price, so reassessment impact is minimal.</p>
+      <p><strong>[3] Real Estate Taxes:</strong> LA County reassesses to purchase price at close; shown at 1.25% of the $1,620,000 list price ($20,250). Current taxes (~$21,434) already imply an assessed basis slightly above the offering price, so reassessment is roughly neutral.</p>
       <p><strong>[4] Insurance:</strong> Per 2025 actual (~$6,214), shown at $6,500 for an older wood-frame asset.</p>
       <p><strong>[5] Water / Sewer:</strong> Owner-paid, master-metered; per trailing operations.</p>
       <p><strong>[6] Trash, Gas, Electric:</strong> Owner-paid trash and common-area utilities; tenants individually metered for in-unit gas &amp; electric.</p>
       <p><strong>[7] Repairs &amp; Maintenance:</strong> Normalized to ~$643/unit, above the 2025 actual (~$3,265) to reflect a buyer's reserve for a 1976 asset.</p>
       <p><strong>[8] Contract Services:</strong> Gardening, pest control, fire/life-safety, and telephone/alarm per 2025 actuals (~$3,800 combined).</p>
-      <p><strong>[9] Reserves:</strong> $250/unit, standard for 1976 vintage.</p>
-      <p style="margin-top:8px;"><em>Reassessed NOI of $94,840 is consistent with trailing operations - 2024: $90,826; 2025: $94,935; 2026 YTD annualized: ~$98,680. Buyer to verify all actuals in due diligence.</em></p>
+      <p><strong>[9] Management:</strong> Off-site professional management underwritten at 5% of effective gross income.</p>
+      <p><strong>[10] Reserves:</strong> $250/unit, standard for 1976 vintage.</p>
+      <p style="margin-top:8px;"><em>Reassessed NOI of $89,175 reflects a buyer's pro forma including a 5% management load; the seller has operated without third-party management (2024 NOI $90,826; 2025: $94,935; 2026 YTD annualized: ~$98,680). Buyer to verify all actuals in due diligence.</em></p>
     </div>
   </div>
 
@@ -635,23 +655,23 @@ td.num, th.num { text-align: right; }
     <div class="summary-two-col">
       <div class="summary-left">
         <table class="summary-table"><thead><tr><th colspan="2" class="summary-header">Operating Data</th></tr></thead><tbody>
-          <tr><td>Price</td><td class="num">$1,725,000</td></tr>
-          <tr><td>Down Payment</td><td class="num">$690,000</td></tr>
+          <tr><td>Price</td><td class="num">$1,620,000</td></tr>
+          <tr><td>Down Payment</td><td class="num">$648,000</td></tr>
           <tr><td>Number of Units</td><td class="num">7</td></tr>
-          <tr><td>Price / Unit</td><td class="num">$246,429</td></tr>
-          <tr><td>Price / SF</td><td class="num">$277</td></tr>
+          <tr><td>Price / Unit</td><td class="num">$231,429</td></tr>
+          <tr><td>Price / SF</td><td class="num">$260</td></tr>
           <tr><td>Gross SF</td><td class="num">6,238</td></tr>
           <tr><td>Year Built</td><td class="num">1976</td></tr>
         </tbody></table>
         <table class="summary-table"><thead><tr><th colspan="2" class="summary-header">Returns (Reassessed)</th></tr></thead><tbody>
           <tr><td>Cap Rate (In-Place)</td><td class="num">5.50%</td></tr>
-          <tr><td>Cap Rate (at Market)</td><td class="num">~8.0%</td></tr>
-          <tr><td>GRM (In-Place)</td><td class="num">12.60x</td></tr>
-          <tr><td>Cash-on-Cash</td><td class="num">2.95%</td></tr>
-          <tr><td>DSCR</td><td class="num">1.27x</td></tr>
+          <tr><td>Cap Rate (at Market)</td><td class="num">~8.1%</td></tr>
+          <tr><td>GRM (In-Place)</td><td class="num">11.84x</td></tr>
+          <tr><td>Cash-on-Cash</td><td class="num">2.97%</td></tr>
+          <tr><td>DSCR</td><td class="num">1.28x</td></tr>
         </tbody></table>
         <table class="summary-table"><thead><tr><th colspan="2" class="summary-header">Financing</th></tr></thead><tbody>
-          <tr><td>Loan Amount</td><td class="num">$1,035,000</td></tr>
+          <tr><td>Loan Amount</td><td class="num">$972,000</td></tr>
           <tr><td>Rate / Amort</td><td class="num">6.00% / 30yr</td></tr>
           <tr><td>Loan Constant</td><td class="num">7.19%</td></tr>
           <tr><td>LTV (actual)</td><td class="num">60.0%</td></tr>
@@ -664,21 +684,21 @@ td.num, th.num { text-align: right; }
           <tr><td>Less Vacancy (3%)</td><td class="num">($4,106)</td></tr>
           <tr><td>Plus Other Income</td><td class="num">$6,800</td></tr>
           <tr><td>Effective Gross Income</td><td class="num">$139,553</td></tr>
-          <tr><td>Operating Expenses</td><td class="num">($44,713)</td></tr>
-          <tr class="summary"><td><strong>Net Operating Income</strong></td><td class="num"><strong>$94,840</strong></td></tr>
+          <tr><td>Operating Expenses</td><td class="num">($50,378)</td></tr>
+          <tr class="summary"><td><strong>Net Operating Income</strong></td><td class="num"><strong>$89,175</strong></td></tr>
         </tbody></table>
         <table class="summary-table"><thead><tr><th colspan="2" class="summary-header">Cash Flow</th></tr></thead><tbody>
-          <tr><td>Net Operating Income</td><td class="num">$94,840</td></tr>
-          <tr><td>Debt Service</td><td class="num">($74,464)</td></tr>
-          <tr><td>Net Cash Flow</td><td class="num">$20,376</td></tr>
-          <tr><td>Cash-on-Cash</td><td class="num">2.95%</td></tr>
-          <tr><td>+ Principal Reduction</td><td class="num">$12,708</td></tr>
-          <tr class="summary"><td><strong>Total Return</strong></td><td class="num"><strong>4.80%</strong></td></tr>
+          <tr><td>Net Operating Income</td><td class="num">$89,175</td></tr>
+          <tr><td>Debt Service</td><td class="num">($69,932)</td></tr>
+          <tr><td>Net Cash Flow</td><td class="num">$19,243</td></tr>
+          <tr><td>Cash-on-Cash</td><td class="num">2.97%</td></tr>
+          <tr><td>+ Principal Reduction</td><td class="num">$11,934</td></tr>
+          <tr class="summary"><td><strong>Total Return</strong></td><td class="num"><strong>4.81%</strong></td></tr>
         </tbody></table>
         <table class="summary-table"><thead><tr><th colspan="2" class="summary-header">Expense Ratio</th></tr></thead><tbody>
-          <tr><td>OpEx / EGI</td><td class="num">32.0%</td></tr>
-          <tr><td>OpEx / Unit</td><td class="num">$6,388</td></tr>
-          <tr><td>OpEx / SF</td><td class="num">$7.17</td></tr>
+          <tr><td>OpEx / EGI</td><td class="num">36.1%</td></tr>
+          <tr><td>OpEx / Unit</td><td class="num">$7,197</td></tr>
+          <tr><td>OpEx / SF</td><td class="num">$8.08</td></tr>
         </tbody></table>
       </div>
     </div>
@@ -687,39 +707,39 @@ td.num, th.num { text-align: right; }
   <div class="price-reveal">
     <div style="text-align:center;margin:32px 0 24px;">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:2px;color:#C5A258;font-weight:600;margin-bottom:8px;">Suggested List Price</div>
-      <div style="font-size:56px;font-weight:700;color:#1B3A5C;line-height:1;font-family:'DM Serif Display',serif;">$1,725,000</div>
+      <div style="font-size:56px;font-weight:700;color:#1B3A5C;line-height:1;font-family:'DM Serif Display',serif;">$1,620,000</div>
     </div>
     <div class="metrics-grid metrics-grid-4">
       <div class="metric-card"><span class="metric-value">5.50%</span><span class="metric-label">Cap Rate (In-Place)</span></div>
-      <div class="metric-card"><span class="metric-value">$246,429</span><span class="metric-label">Price / Unit</span></div>
-      <div class="metric-card"><span class="metric-value">$277</span><span class="metric-label">Price / SF</span></div>
-      <div class="metric-card"><span class="metric-value">12.60x</span><span class="metric-label">GRM (In-Place)</span></div>
+      <div class="metric-card"><span class="metric-value">$231,429</span><span class="metric-label">Price / Unit</span></div>
+      <div class="metric-card"><span class="metric-value">$260</span><span class="metric-label">Price / SF</span></div>
+      <div class="metric-card"><span class="metric-value">11.84x</span><span class="metric-label">GRM (In-Place)</span></div>
     </div>
     <h3 class="sub-heading">Pricing Matrix</h3>
     <div class="table-scroll"><table>
       <thead><tr><th class="num">Purchase Price</th><th class="num">Cap Rate</th><th class="num">Cash-on-Cash</th><th class="num">$/Unit</th><th class="num">$/SF</th><th class="num">GRM</th><th class="num">DSCR</th></tr></thead>
       <tbody>
-<tr><td class="num">$1,975,000</td><td class="num">4.64%</td><td class="num">0.82%</td><td class="num">$282,143</td><td class="num">$317</td><td class="num">14.43x</td><td class="num">1.08x</td></tr>
-<tr><td class="num">$1,925,000</td><td class="num">4.80%</td><td class="num">1.20%</td><td class="num">$275,000</td><td class="num">$309</td><td class="num">14.06x</td><td class="num">1.11x</td></tr>
-<tr><td class="num">$1,875,000</td><td class="num">4.96%</td><td class="num">1.60%</td><td class="num">$267,857</td><td class="num">$301</td><td class="num">13.70x</td><td class="num">1.15x</td></tr>
-<tr><td class="num">$1,825,000</td><td class="num">5.13%</td><td class="num">2.03%</td><td class="num">$260,714</td><td class="num">$293</td><td class="num">13.34x</td><td class="num">1.19x</td></tr>
-<tr><td class="num">$1,775,000</td><td class="num">5.31%</td><td class="num">2.48%</td><td class="num">$253,571</td><td class="num">$285</td><td class="num">12.97x</td><td class="num">1.23x</td></tr>
-<tr class="highlight"><td class="num">$1,725,000</td><td class="num">5.50%</td><td class="num">2.95%</td><td class="num">$246,429</td><td class="num">$277</td><td class="num">12.60x</td><td class="num">1.27x</td></tr>
-<tr><td class="num">$1,675,000</td><td class="num">5.70%</td><td class="num">3.46%</td><td class="num">$239,286</td><td class="num">$269</td><td class="num">12.24x</td><td class="num">1.32x</td></tr>
-<tr><td class="num">$1,625,000</td><td class="num">5.91%</td><td class="num">3.99%</td><td class="num">$232,143</td><td class="num">$261</td><td class="num">11.87x</td><td class="num">1.37x</td></tr>
-<tr><td class="num">$1,575,000</td><td class="num">6.14%</td><td class="num">4.56%</td><td class="num">$225,000</td><td class="num">$252</td><td class="num">11.51x</td><td class="num">1.42x</td></tr>
-<tr><td class="num">$1,525,000</td><td class="num">6.38%</td><td class="num">5.17%</td><td class="num">$217,857</td><td class="num">$244</td><td class="num">11.14x</td><td class="num">1.48x</td></tr>
-<tr><td class="num">$1,475,000</td><td class="num">6.64%</td><td class="num">5.81%</td><td class="num">$210,714</td><td class="num">$236</td><td class="num">10.78x</td><td class="num">1.54x</td></tr>
+<tr><td class="num">$1,870,000</td><td class="num">4.60%</td><td class="num">1.64%</td><td class="num">$267,143</td><td class="num">$300</td><td class="num">13.66x</td><td class="num">1.20x</td></tr>
+<tr><td class="num">$1,820,000</td><td class="num">4.76%</td><td class="num">1.77%</td><td class="num">$260,000</td><td class="num">$292</td><td class="num">13.30x</td><td class="num">1.20x</td></tr>
+<tr><td class="num">$1,770,000</td><td class="num">4.93%</td><td class="num">1.92%</td><td class="num">$252,857</td><td class="num">$284</td><td class="num">12.93x</td><td class="num">1.20x</td></tr>
+<tr><td class="num">$1,720,000</td><td class="num">5.11%</td><td class="num">2.09%</td><td class="num">$245,714</td><td class="num">$276</td><td class="num">12.57x</td><td class="num">1.20x</td></tr>
+<tr><td class="num">$1,670,000</td><td class="num">5.30%</td><td class="num">2.46%</td><td class="num">$238,571</td><td class="num">$268</td><td class="num">12.20x</td><td class="num">1.23x</td></tr>
+<tr class="highlight"><td class="num">$1,620,000</td><td class="num">5.50%</td><td class="num">2.97%</td><td class="num">$231,429</td><td class="num">$260</td><td class="num">11.84x</td><td class="num">1.28x</td></tr>
+<tr><td class="num">$1,570,000</td><td class="num">5.72%</td><td class="num">3.51%</td><td class="num">$224,286</td><td class="num">$252</td><td class="num">11.47x</td><td class="num">1.33x</td></tr>
+<tr><td class="num">$1,520,000</td><td class="num">5.95%</td><td class="num">4.08%</td><td class="num">$217,143</td><td class="num">$244</td><td class="num">11.11x</td><td class="num">1.38x</td></tr>
+<tr><td class="num">$1,470,000</td><td class="num">6.19%</td><td class="num">4.69%</td><td class="num">$210,000</td><td class="num">$236</td><td class="num">10.74x</td><td class="num">1.43x</td></tr>
+<tr><td class="num">$1,420,000</td><td class="num">6.46%</td><td class="num">5.35%</td><td class="num">$202,857</td><td class="num">$228</td><td class="num">10.38x</td><td class="num">1.50x</td></tr>
+<tr><td class="num">$1,370,000</td><td class="num">6.74%</td><td class="num">6.05%</td><td class="num">$195,714</td><td class="num">$220</td><td class="num">10.01x</td><td class="num">1.56x</td></tr>
 </tbody>
     </table></div>
     <div class="summary-trade-range">
       <div class="summary-trade-label">A Trade Price in the Current Investment Environment Of</div>
-      <div class="summary-trade-prices">$1,625,000 &mdash; $1,825,000</div>
+      <div class="summary-trade-prices">$1,520,000 &mdash; $1,720,000</div>
     </div>
     <h3 class="sub-heading">Pricing Rationale</h3>
-    <p>The list price of $1,725,000 reconciles three independent pricing lenses. On a <strong>per-unit basis ($246,429)</strong> it carries a measured ~5% premium to the sold-comp median of $235,000, justified by the subject's newer 1976 vintage (versus the 1953-1959 comps) and townhouse-style layout. On <strong>cap rate (5.50% in-place)</strong> it lands just inside the sold-comp median of 5.67% while offering a clear path toward ~8% as the ~33% below-market rents move to market. On <strong>price-per-SF ($277)</strong> it sits below the highest comp ($284, 17956 Schoenborn) and above the median, consistent with newer, well-maintained product.</p>
-    <p>The price is anchored at the disciplined, comp-supportable end of the range and is positioned to clear within an industry-standard 60-90 day marketing window, with room for upward buyer-side negotiation given the strength of the mark-to-market story.</p>
-    <div class="condition-note"><strong>Assumptions &amp; Conditions:</strong> This opinion of value is based on the owner-provided rent roll (6/1/2026) and operating statements (FYE 2024-2025 and 2026 YTD), CoStar comparable sales, and LAAA market-rent estimates. Financing shown is illustrative (6.00%, 30-year amortization, 60% max LTV). Real estate taxes are shown at 1.25% of list price. Final terms, prorations, and net proceeds depend on the executed contract and close date. Buyer to verify all figures - including per-unit SF, systems, and RSO registration - in due diligence.</p></div>
+    <p>The list price of $1,620,000 reconciles three independent pricing lenses against the four-comparable set (average <strong>$216,208/unit, $250/SF, 5.69% cap</strong>). On a <strong>per-unit basis ($231,429)</strong> it sits ~7% above the comp average, supported by the subject's newer 1976 vintage (versus the 1953-1959 comps) and townhouse-style layout. On <strong>cap rate (5.50% in-place)</strong> it lands just inside the comp average of 5.69% while offering a clear path toward ~8% as the ~33% below-market rents move to market. On <strong>price-per-SF ($260)</strong> it carries a modest premium to the $250 average and remains below the highest comp ($284, 17956 Schoenborn).</p>
+    <p>All returns are underwritten after a 5% management load, so the going-in yield is a true third-party-managed figure. The price is anchored at the disciplined, comp-supportable end of the range and is positioned to clear within an industry-standard 60-90 day marketing window, with room for upward buyer-side negotiation given the strength of the mark-to-market story.</p>
+    <div class="condition-note"><strong>Assumptions &amp; Conditions:</strong> This opinion of value is based on the owner-provided rent roll (6/1/2026) and operating statements (FYE 2024-2025 and 2026 YTD), comparable sales, and LAAA market-rent estimates. Operating expenses include off-site management at 5% of EGI. Financing shown is illustrative (6.00%, 30-year amortization, 60% max LTV). Real estate taxes are shown at 1.25% of list price. Final terms, prorations, and net proceeds depend on the executed contract and close date. Buyer to verify all figures - including per-unit SF, systems, and RSO registration - in due diligence.</p></div>
   </div>
 </div>
 
@@ -735,6 +755,54 @@ td.num, th.num { text-align: right; }
 </div>
 
 <script>
+/* ---- Property photo slideshow + lightbox ---- */
+var SLIDES = [
+  ['images/photo_ext1.jpg','Front elevation — tan stucco townhouse-style units with mansard roof'],
+  ['images/photo_kitchen1.jpg','Renovated kitchen — white shaker cabinetry, gas range'],
+  ['images/photo_living1.jpg','Living room — wide-plank flooring, private balcony access'],
+  ['images/photo_stairs.jpg','Two-story townhouse layout — open living with staircase'],
+  ['images/photo_living2.jpg','Living / dining — bright, updated finishes'],
+  ['images/photo_kitchen2.jpg','Kitchen — stainless range and full-height cabinetry'],
+  ['images/photo_bed1.jpg','Bedroom — wide-plank floors, large window'],
+  ['images/photo_bed2.jpg','Bedroom — mirrored wardrobe closet'],
+  ['images/photo_entry.jpg','Entry and staircase to the upper level'],
+  ['images/photo_bath1.jpg','Full bathroom — tub/shower, tiled surround'],
+  ['images/photo_bath2.jpg','Updated vanity and fixtures'],
+  ['images/photo_ext2.jpg','Rear exterior — private patio and ground-floor entry']
+];
+var slideIdx = 0;
+function _gid(id){ return document.getElementById(id); }
+function renderThumbs(){
+  var t = _gid('slideThumbs'); if(!t) return; t.innerHTML = '';
+  SLIDES.forEach(function(s, i){
+    var im = document.createElement('img');
+    im.src = s[0]; im.alt = s[1]; im.loading = 'lazy';
+    im.onclick = function(){ slideShow(i); };
+    t.appendChild(im);
+  });
+}
+function slideShow(i){
+  slideIdx = (i + SLIDES.length) % SLIDES.length;
+  var m = _gid('slideMain'); if(m){ m.src = SLIDES[slideIdx][0]; m.alt = SLIDES[slideIdx][1]; }
+  var c = _gid('slideCaption'); if(c){ c.innerHTML = SLIDES[slideIdx][1]; }
+  var n = _gid('slideCounter'); if(n){ n.textContent = (slideIdx+1) + ' / ' + SLIDES.length; }
+  var thumbs = _gid('slideThumbs');
+  if(thumbs){ Array.prototype.forEach.call(thumbs.children, function(ch, j){ ch.className = (j===slideIdx ? 'active' : ''); }); }
+  if(_gid('lightbox') && _gid('lightbox').classList.contains('open')) syncLightbox();
+}
+function slideMove(d){ slideShow(slideIdx + d); }
+function openLightbox(){ var lb=_gid('lightbox'); if(lb){ lb.classList.add('open'); syncLightbox(); } }
+function closeLightbox(){ var lb=_gid('lightbox'); if(lb) lb.classList.remove('open'); }
+function syncLightbox(){ var im=_gid('lbImg'), cp=_gid('lbCap'); if(im) im.src=SLIDES[slideIdx][0]; if(cp) cp.innerHTML=SLIDES[slideIdx][1]; }
+document.addEventListener('keydown', function(e){
+  var lb=_gid('lightbox'); if(lb && lb.classList.contains('open')){
+    if(e.key==='Escape') closeLightbox();
+    else if(e.key==='ArrowLeft') slideMove(-1);
+    else if(e.key==='ArrowRight') slideMove(1);
+  }
+});
+renderThumbs(); slideShow(0);
+
 var params = new URLSearchParams(window.location.search);
 var client = params.get('client');
 if (client) { var el = document.getElementById('client-greeting'); if (el) el.textContent = 'Prepared Exclusively for ' + client; }
