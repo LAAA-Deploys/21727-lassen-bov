@@ -155,6 +155,18 @@ td.num, th.num { text-align: right; }
 .obj-a { font-size: 13px; color: #444; line-height: 1.6; }
 .bp-closing { font-size: 13px; color: #444; margin-top: 12px; font-style: italic; }
 .narrative { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 16px; }
+.listings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 6px; }
+.listing-card { display: block; text-decoration: none; color: inherit; background: #fff; border: 1px solid #E2E5EB; border-radius: 10px; padding: 18px 20px; transition: box-shadow .15s, transform .15s, border-color .15s; }
+.listing-card:hover { box-shadow: 0 6px 18px rgba(27,58,92,0.14); transform: translateY(-2px); border-color: #C5A258; }
+.listing-addr { font-family: 'DM Serif Display', serif; font-size: 17px; color: #1B3A5C; line-height: 1.25; margin-bottom: 3px; }
+.listing-city { font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 13px; }
+.listing-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: #2F3640; margin-bottom: 12px; }
+.listing-meta strong { color: #1B3A5C; }
+.listing-price { font-family: 'DM Serif Display', serif; font-size: 22px; color: #1B3A5C; }
+.listing-cta { font-size: 11px; color: #3F6FA8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; }
+.listings-all { text-align: center; margin-top: 22px; }
+.listings-all a { display: inline-block; background: #1B3A5C; color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; padding: 12px 28px; border-radius: 6px; }
+.listings-all a:hover { background: #C5A258; color: #1B3A5C; }
 .slideshow { max-width: 1000px; margin: 0 auto; }
 .slide-stage { position: relative; width: 100%; height: 580px; background: #0F2745; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 22px rgba(0,0,0,0.14); }
 .slide-stage img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
@@ -213,6 +225,7 @@ td.num, th.num { text-align: right; }
   .cover-stats { gap: 24px; }
   .section { padding: 30px 16px; }
   .two-col, .buyer-split, .inv-split, .os-two-col, .loc-grid, .improv-grid { grid-template-columns: 1fr; }
+  .listings-grid { grid-template-columns: 1fr 1fr; }
   .slide-stage { height: 300px; } .slide-thumbs img { width: 76px; height: 50px; }
   .slide-arrow { width: 40px; height: 40px; font-size: 22px; }
   .metrics-grid, .metrics-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -244,7 +257,7 @@ td.num, th.num { text-align: right; }
   .os-two-col { page-break-before: always; }
   .summary-page { page-break-before: always; }
   .price-reveal { page-break-before: always; }
-  #prop-details, #property-info, #comps, #marketing { page-break-before: always; }
+  #prop-details, #property-info, #comps, #marketing, #listings { page-break-before: always; }
   .footer { page-break-before: always; }
   table { font-size: 10px; } th { padding: 5px 8px; font-size: 9px; } td { padding: 4px 8px; }
 }
@@ -293,6 +306,7 @@ td.num, th.num { text-align: right; }
   <a href="#property-info">Buyer Profile</a>
   <a href="#comps">Comparables</a>
   <a href="#financials">Financials</a>
+  <a href="#listings">Listings</a>
   <a href="#contact">Contact</a>
 </nav>
 
@@ -750,6 +764,35 @@ td.num, th.num { text-align: right; }
     <p>All returns are underwritten after a 5% management load, so the going-in yield is a true third-party-managed figure. The price is anchored at the disciplined, comp-supportable end of the range and is positioned to clear within an industry-standard 60-90 day marketing window, with room for upward buyer-side negotiation given the strength of the mark-to-market story.</p>
     <div class="condition-note"><strong>Assumptions &amp; Conditions:</strong> This opinion of value is based on the owner-provided rent roll (6/1/2026) and operating statements (FYE 2024-2025 and 2026 YTD), comparable sales, and LAAA market-rent estimates. Operating expenses include off-site management at 5% of EGI. Financing shown is illustrative (6.00%, 30-year amortization, 60% max LTV). Real estate taxes are shown at 1.25% of list price. Final terms, prorations, and net proceeds depend on the executed contract and close date. Buyer to verify all figures - including per-unit SF, systems, and RSO registration - in due diligence.</p></div>
   </div>
+</div>
+
+<!-- CURRENT LISTINGS -->
+<div class="page-break-marker"></div>
+<div class="section section-alt" id="listings">
+  <div class="section-title">Current Multifamily Listings</div>
+  <div class="section-subtitle">A Snapshot of Our Active Inventory</div>
+  <div class="section-divider"></div>
+  <p class="narrative">A current cross-section of the LAAA Team's active multifamily offerings across Los Angeles, Ventura, and the Central Valley. Click any property to view its listing on www.laaa.com. Inventory as of June 2026 and subject to change.</p>
+  <div class="listings-grid">
+    <a class="listing-card" href="https://www.laaa.com/om/10455-magnolia" target="_blank" rel="noopener"><div class="listing-addr">10455 Magnolia Blvd</div><div class="listing-city">North Hollywood, CA</div><div class="listing-meta"><span><strong>26</strong> Units</span><span>Built <strong>2016</strong></span></div><div class="listing-price">$9,200,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/180-holly" target="_blank" rel="noopener"><div class="listing-addr">180 Holly Avenue</div><div class="listing-city">Carpinteria, CA</div><div class="listing-meta"><span><strong>19</strong> Units</span><span>Built <strong>1965</strong></span></div><div class="listing-price">$8,950,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/2700-white" target="_blank" rel="noopener"><div class="listing-addr">2700 White Ln</div><div class="listing-city">Bakersfield, CA</div><div class="listing-meta"><span><strong>149</strong> Units</span><span>Built <strong>1965</strong></span></div><div class="listing-price">$8,400,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/755-e-pine" target="_blank" rel="noopener"><div class="listing-addr">755 E Pine Street</div><div class="listing-city">Altadena, CA</div><div class="listing-meta"><span><strong>19</strong> Units</span><span>Built <strong>1958</strong></span></div><div class="listing-price">$5,595,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/3607-pacific" target="_blank" rel="noopener"><div class="listing-addr">3607 Pacific Ave</div><div class="listing-city">Marina del Rey, CA</div><div class="listing-meta"><span><strong>6</strong> Units</span><span>Built <strong>1964</strong></span></div><div class="listing-price">$5,395,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/7018-alabama" target="_blank" rel="noopener"><div class="listing-addr">7018 Alabama Ave</div><div class="listing-city">Canoga Park, CA</div><div class="listing-meta"><span><strong>9</strong> Units</span><span>Built <strong>2020</strong></span></div><div class="listing-price">$5,100,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/20234-roscoe" target="_blank" rel="noopener"><div class="listing-addr">20234 Roscoe Blvd</div><div class="listing-city">Winnetka, CA</div><div class="listing-meta"><span><strong>25</strong> Units</span><span>Built <strong>1964</strong></span></div><div class="listing-price">$4,750,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/4603-la-mirada-1255-lyman" target="_blank" rel="noopener"><div class="listing-addr">4603 La Mirada &amp; 1255 Lyman Pl</div><div class="listing-city">Los Angeles, CA</div><div class="listing-meta"><span><strong>9</strong> Units</span><span>Built <strong>1922</strong></span></div><div class="listing-price">$4,500,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/10814-blix" target="_blank" rel="noopener"><div class="listing-addr">10814-10818 Blix St</div><div class="listing-city">North Hollywood, CA</div><div class="listing-meta"><span><strong>18</strong> Units</span><span>Built <strong>1916</strong></span></div><div class="listing-price">$4,495,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/13915-sherman-way" target="_blank" rel="noopener"><div class="listing-addr">13915 Sherman Way</div><div class="listing-city">Van Nuys, CA</div><div class="listing-meta"><span><strong>15</strong> Units</span><span>Built <strong>1989</strong></span></div><div class="listing-price">$3,750,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/3361-hamilton" target="_blank" rel="noopener"><div class="listing-addr">3361 Hamilton Way</div><div class="listing-city">Los Angeles, CA</div><div class="listing-meta"><span><strong>4</strong> Units</span><span>Built <strong>1933</strong></span></div><div class="listing-price">$2,800,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/laveta" target="_blank" rel="noopener"><div class="listing-addr">1303-1305 Laveta Terrace</div><div class="listing-city">Los Angeles, CA</div><div class="listing-meta"><span><strong>10</strong> Units</span><span>Built <strong>1921</strong></span></div><div class="listing-price">$2,590,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/1807-montana" target="_blank" rel="noopener"><div class="listing-addr">1807 Montana Street</div><div class="listing-city">Los Angeles, CA</div><div class="listing-meta"><span><strong>4</strong> Units</span><span>Built <strong>1914</strong></span></div><div class="listing-price">$2,500,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/5614-w-adams" target="_blank" rel="noopener"><div class="listing-addr">5614 W Adams Blvd</div><div class="listing-city">Los Angeles, CA</div><div class="listing-meta"><span><strong>7</strong> Units</span><span>Built <strong>1961</strong></span></div><div class="listing-price">$1,850,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/6860-woodley-ave" target="_blank" rel="noopener"><div class="listing-addr">6860 Woodley Ave</div><div class="listing-city">Van Nuys, CA</div><div class="listing-meta"><span><strong>7</strong> Units</span><span>Built <strong>1988</strong></span></div><div class="listing-price">$1,850,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/11565-iowa" target="_blank" rel="noopener"><div class="listing-addr">11565 Iowa Ave</div><div class="listing-city">Los Angeles, CA</div><div class="listing-meta"><span><strong>3</strong> Units</span><span>Built <strong>1928</strong></span></div><div class="listing-price">$1,735,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+    <a class="listing-card" href="https://www.laaa.com/om/14857-hartsook" target="_blank" rel="noopener"><div class="listing-addr">14857 Hartsook St</div><div class="listing-city">Sherman Oaks, CA</div><div class="listing-meta"><span><strong>6</strong> Units</span><span>Built <strong>1960</strong></span></div><div class="listing-price">$1,725,000</div><div class="listing-cta">View Listing &#8599;</div></a>
+  </div>
+  <div class="listings-all"><a href="https://www.laaa.com/listings?type=multifamily" target="_blank" rel="noopener">View All Multifamily Listings at www.laaa.com &#8599;</a></div>
 </div>
 
 <!-- FOOTER -->
