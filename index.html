@@ -17,6 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; color: #333; line-height: 1.6; background: #fff; }
@@ -184,6 +186,13 @@ td.num, th.num { text-align: right; }
 .adu-card h4 { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; margin-bottom: 12px; color: #fff; }
 .adu-card p { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.88); margin-bottom: 12px; }
 .adu-card .adu-permit { font-size: 11px; color: rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.15); padding-top: 10px; margin-top: 4px; }
+.comps-map { width: 100%; height: 460px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,0.12); margin-bottom: 8px; z-index: 0; }
+.map-pin { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); color: #fff; font-weight: 700; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); border: 2px solid #fff; }
+.map-pin span { transform: rotate(45deg); line-height: 1; }
+.map-pin.subject { background: #C5A258; }
+.map-pin.comp { background: #1B3A5C; }
+.leaflet-popup-content { font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.5; margin: 10px 12px; }
+.leaflet-popup-content b { color: #1B3A5C; }
 .embed-map-wrap { position: relative; width: 100%; margin-bottom: 24px; border-radius: 8px; overflow: hidden; }
 .embed-map-wrap iframe { display: block; width: 100%; height: 420px; border: 0; }
 .page-break-marker { height: 4px; background: repeating-linear-gradient(90deg, #ddd 0, #ddd 8px, transparent 8px, transparent 16px); max-width: 1100px; margin: 0 auto; }
@@ -226,7 +235,7 @@ td.num, th.num { text-align: right; }
 @media print {
   @page { size: letter landscape; margin: 0.4in 0.5in; }
   body { font-size: 11px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .pdf-float-btn, .toc-nav, .embed-map-wrap, .page-break-marker, .flag-note { display: none !important; }
+  .pdf-float-btn, .toc-nav, .embed-map-wrap, .comps-map, .page-break-marker, .flag-note { display: none !important; }
   .cover { min-height: 7.5in; page-break-after: always; }
   .cover-headshots { display: flex !important; }
   .section { padding: 20px 0; page-break-before: always; }
@@ -560,25 +569,23 @@ td.num, th.num { text-align: right; }
   <div class="section-subtitle">Recent Closed Sales and Active Listings - West Valley</div>
   <div class="section-divider"></div>
   <div class="flag-note"><strong>Draft note:</strong> comp pricing/units are from the provided comp set, with building areas (and $/SF) corrected to title / LightBox assessor records.</div>
-  <div class="embed-map-wrap">
-    <iframe src="https://maps.google.com/maps?saddr=21727+Lassen+St,+Chatsworth,+CA+91311&daddr=8807+Canby+Ave,+Northridge,+CA+91325+to:17956+Schoenborn+St,+Northridge,+CA+91325+to:17944+Schoenborn+St,+Northridge,+CA+91325+to:17945+Roscoe+Blvd,+Northridge,+CA+91325&output=embed" loading="lazy" allowfullscreen></iframe>
-  </div>
-  <p style="font-size:11px;color:#6B7280;margin:-12px 0 18px;">Interactive Google Map &mdash; <strong>A</strong> = subject (21727 Lassen St); <strong>B&ndash;E</strong> = comparable sales &amp; the under-contract listing. <a href="https://www.google.com/maps/search/21727+Lassen+St,+Chatsworth,+CA/@34.235,-118.565,12z" target="_blank" rel="noopener" style="color:#3F6FA8;">Open in Google Maps &#8599;</a></p>
+  <div id="compsMap" class="comps-map"></div>
+  <p style="font-size:11px;color:#6B7280;margin:2px 0 18px;">Interactive map &mdash; <strong style="color:#C5A258;">gold pin</strong> = subject (21727 Lassen St); <strong style="color:#1B3A5C;">numbered navy pins</strong> = the four comparables. Click any pin for details. <a href="https://www.google.com/maps/search/21727+Lassen+St,+Chatsworth,+CA/@34.235,-118.565,12z" target="_blank" rel="noopener" style="color:#3F6FA8;">Open in Google Maps &#8599;</a></p>
   <div class="table-scroll"><table>
     <thead><tr><th>Address</th><th>Submarket</th><th class="num">Yr</th><th class="num">Units</th><th class="num">Price</th><th class="num">$/Unit</th><th class="num">$/SF</th><th class="num">Cap</th><th>Status</th></tr></thead>
     <tbody>
 <tr class='highlight'><td><strong>21727 Lassen St</strong> (Subject)</td><td>Chatsworth</td><td class='num'>1976</td><td class='num'>7</td><td class='num'>$1,620,000</td><td class='num'>$231,429</td><td class='num'>$260</td><td class='num'>5.50%</td><td>Offered</td></tr>
-<tr><td><a href='https://www.google.com/maps/place/8807+Canby+Ave,+Northridge,+CA+91325/' target='_blank' rel='noopener'>8807 Canby Ave</a></td><td>Northridge</td><td class='num'>1953</td><td class='num'>5</td><td class='num'>$1,182,500</td><td class='num'>$236,500</td><td class='num'>$241</td><td class='num'>4.44%</td><td>Sold Apr 2026</td></tr>
+<tr><td><a href='https://www.google.com/maps/place/8807+Canby+Ave,+Northridge,+CA+91325/' target='_blank' rel='noopener'>8807 Canby Ave</a></td><td>Northridge</td><td class='num'>1953</td><td class='num'>5</td><td class='num'>$1,182,500</td><td class='num'>$236,500</td><td class='num'>$241</td><td class='num'>4.69%</td><td>Sold Apr 2026</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/17956+Schoenborn+St,+Northridge,+CA+91325/' target='_blank' rel='noopener'>17956 Schoenborn St</a></td><td>Northridge</td><td class='num'>1959</td><td class='num'>6</td><td class='num'>$1,410,000</td><td class='num'>$235,000</td><td class='num'>$284</td><td class='num'>7.07%</td><td>Sold Nov 2025</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/17944+Schoenborn+St,+Northridge,+CA+91325/' target='_blank' rel='noopener'>17944 Schoenborn St</a></td><td>Northridge</td><td class='num'>1959</td><td class='num'>6</td><td class='num'>$1,110,000</td><td class='num'>$185,000</td><td class='num'>$224</td><td class='num'>5.67%</td><td>Sold Oct 2025</td></tr>
 <tr><td><a href='https://www.google.com/maps/place/17945+Roscoe+Blvd,+Northridge,+CA+91325/' target='_blank' rel='noopener'>17945 Roscoe Blvd</a></td><td>Northridge</td><td class='num'>1959</td><td class='num'>6</td><td class='num'>$1,250,000</td><td class='num'>$208,333</td><td class='num'>$252</td><td class='num'>5.56%</td><td>Under Contract</td></tr>
-<tr class='summary'><td colspan='4'><strong>Average (4 comparables)</strong></td><td class='num'><strong>$1,238,125</strong></td><td class='num'><strong>$216,208</strong></td><td class='num'><strong>$250</strong></td><td class='num'><strong>5.69%</strong></td><td>-</td></tr>
+<tr class='summary'><td colspan='4'><strong>Average (4 comparables)</strong></td><td class='num'><strong>$1,238,125</strong></td><td class='num'><strong>$216,208</strong></td><td class='num'><strong>$250</strong></td><td class='num'><strong>5.75%</strong></td><td>-</td></tr>
 </tbody>
   </table></div>
   <div class="comp-narratives">
-    <p class="narrative"><strong>Closed sales.</strong> Three recent West Valley trades frame the value. <strong>8807 Canby Ave</strong> (5-unit, 1953) closed April 2026 at $236,500/unit and a tight 4.44% cap in a one-month window - below-market in-place rents like the subject, setting the per-unit benchmark. <strong>17956 Schoenborn St</strong> (6-unit, 1959) sold November 2025 at $235,000/unit, $284/SF, and a 7.07% cap - the market-rent benchmark showing where a stabilized West Valley building trades once rents are at market, exactly the yield 21727 Lassen targets as units turn. <strong>17944 Schoenborn St</strong> (6-unit, 1959, 4,962 SF per title) sold October 2025 at $185,000/unit and $224/SF, anchoring the floor on condition and in-place rents.</p>
+    <p class="narrative"><strong>Closed sales.</strong> Three recent West Valley trades frame the value. <strong>8807 Canby Ave</strong> (5-unit, 1953) closed April 2026 at $236,500/unit and a tight 4.69% cap in a one-month window - below-market in-place rents like the subject, setting the per-unit benchmark. <strong>17956 Schoenborn St</strong> (6-unit, 1959) sold November 2025 at $235,000/unit, $284/SF, and a 7.07% cap - the market-rent benchmark showing where a stabilized West Valley building trades once rents are at market, exactly the yield 21727 Lassen targets as units turn. <strong>17944 Schoenborn St</strong> (6-unit, 1959, 4,962 SF per title) sold October 2025 at $185,000/unit and $224/SF, anchoring the floor on condition and in-place rents.</p>
     <p class="narrative"><strong>Active demand.</strong> <strong>17945 Roscoe Blvd</strong> (6-unit, 1959) went under contract in 82 days at $208,333/unit and a 5.56% cap, confirming that well-located West Valley apartments clear when priced inside the comp range. Per the comp set, West Valley apartment cap rates currently range from roughly 3.85% to 6.97%.</p>
-    <p class="narrative"><strong>Positioning.</strong> Across the four comparables the average is $216,208/unit, $250/SF, and a 5.69% cap. The subject's newer 1976 vintage and townhouse-style layout support a measured premium to that average, while its ~33% below-market rents keep the going-in 5.50% cap right in the comp band with clear room to grow. At $1,620,000 the subject is positioned to clear inside an industry-standard 60-90 day window, not to sit.</p>
+    <p class="narrative"><strong>Positioning.</strong> Across the four comparables the average is $216,208/unit, $250/SF, and a 5.75% cap. The subject's newer 1976 vintage and townhouse-style layout support a measured premium to that average, while its ~33% below-market rents keep the going-in 5.50% cap right in the comp band with clear room to grow. At $1,620,000 the subject is positioned to clear inside an industry-standard 60-90 day window, not to sit.</p>
   </div>
 </div>
 
@@ -737,7 +744,7 @@ td.num, th.num { text-align: right; }
       <div class="summary-trade-prices">$1,520,000 &mdash; $1,720,000</div>
     </div>
     <h3 class="sub-heading">Pricing Rationale</h3>
-    <p>The list price of $1,620,000 reconciles three independent pricing lenses against the four-comparable set (average <strong>$216,208/unit, $250/SF, 5.69% cap</strong>). On a <strong>per-unit basis ($231,429)</strong> it sits ~7% above the comp average, supported by the subject's newer 1976 vintage (versus the 1953-1959 comps) and townhouse-style layout. On <strong>cap rate (5.50% in-place)</strong> it lands just inside the comp average of 5.69% while offering a clear path toward ~8% as the ~33% below-market rents move to market. On <strong>price-per-SF ($260)</strong> it carries a modest premium to the $250 average and remains below the highest comp ($284, 17956 Schoenborn).</p>
+    <p>The list price of $1,620,000 reconciles three independent pricing lenses against the four-comparable set (average <strong>$216,208/unit, $250/SF, 5.75% cap</strong>). On a <strong>per-unit basis ($231,429)</strong> it sits ~7% above the comp average, supported by the subject's newer 1976 vintage (versus the 1953-1959 comps) and townhouse-style layout. On <strong>cap rate (5.50% in-place)</strong> it lands just inside the comp average of 5.75% while offering a clear path toward ~8% as the ~33% below-market rents move to market. On <strong>price-per-SF ($260)</strong> it carries a modest premium to the $250 average and remains below the highest comp ($284, 17956 Schoenborn).</p>
     <p>All returns are underwritten after a 5% management load, so the going-in yield is a true third-party-managed figure. The price is anchored at the disciplined, comp-supportable end of the range and is positioned to clear within an industry-standard 60-90 day marketing window, with room for upward buyer-side negotiation given the strength of the mark-to-market story.</p>
     <div class="condition-note"><strong>Assumptions &amp; Conditions:</strong> This opinion of value is based on the owner-provided rent roll (6/1/2026) and operating statements (FYE 2024-2025 and 2026 YTD), comparable sales, and LAAA market-rent estimates. Operating expenses include off-site management at 5% of EGI. Financing shown is illustrative (6.00%, 30-year amortization, 60% max LTV). Real estate taxes are shown at 1.25% of list price. Final terms, prorations, and net proceeds depend on the executed contract and close date. Buyer to verify all figures - including per-unit SF, systems, and RSO registration - in due diligence.</p></div>
   </div>
@@ -802,6 +809,31 @@ document.addEventListener('keydown', function(e){
   }
 });
 renderThumbs(); slideShow(0);
+
+/* ---- Comparables map (Leaflet) ---- */
+(function(){
+  if (typeof L === 'undefined' || !document.getElementById('compsMap')) return;
+  var COMPS = [
+    { ll:[34.2500537,-118.6020704], subject:true, label:'★', t:'21727 Lassen St (Subject)', d:'$1,620,000 &middot; $231,429/unit &middot; 5.50% cap' },
+    { ll:[34.2309392,-118.5349050], n:'1', t:'8807 Canby Ave', d:'Sold Apr 2026 &middot; $1,182,500 &middot; $236,500/unit &middot; 4.69% cap' },
+    { ll:[34.2217557,-118.5242816], n:'2', t:'17956 Schoenborn St', d:'Sold Nov 2025 &middot; $1,410,000 &middot; $235,000/unit &middot; 7.07% cap' },
+    { ll:[34.2217594,-118.5240354], n:'3', t:'17944 Schoenborn St', d:'Sold Oct 2025 &middot; $1,110,000 &middot; $185,000/unit &middot; 5.67% cap' },
+    { ll:[34.2210038,-118.5183004], n:'4', t:'17945 Roscoe Blvd', d:'Under Contract &middot; $1,250,000 &middot; $208,333/unit &middot; 5.56% cap' }
+  ];
+  var map = L.map('compsMap', { scrollWheelZoom:false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19
+  }).addTo(map);
+  var pts = [];
+  COMPS.forEach(function(c){
+    var cls = c.subject ? 'map-pin subject' : 'map-pin comp';
+    var txt = c.subject ? c.label : c.n;
+    var icon = L.divIcon({ className:'', html:'<div class="'+cls+'"><span>'+txt+'</span></div>', iconSize:[30,30], iconAnchor:[15,30], popupAnchor:[0,-30] });
+    L.marker(c.ll, { icon:icon }).addTo(map).bindPopup('<b>'+c.t+'</b><br>'+c.d);
+    pts.push(c.ll);
+  });
+  map.fitBounds(pts, { padding:[45,45] });
+})();
 
 var params = new URLSearchParams(window.location.search);
 var client = params.get('client');
